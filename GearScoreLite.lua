@@ -1,8 +1,8 @@
 
 -------------------------------------------------------------------------------
 --                            GearScoreLite                                  --
---                             Version 3x04                                   --
---								Mirrikat45                                   --
+--                             Version 3x04.s1                               --
+--							Mirrikat45, Sunmudang@Style                      --
 -------------------------------------------------------------------------------
 
 --Change Log 3x04
@@ -10,6 +10,8 @@
 --GS will now be reduced on un-enchanted items that are enchantable. 
 --Remember that gems are always shown as empty by initial API calls so I cant determine if gems are missing or not.
 
+--Change Log 3x04.s1
+--disable gearscore when inspecting other's talent
 ------------------------------------------------------------------------------
 
 function GearScore_OnEvent(GS_Nil, GS_EventName, GS_Prefix, GS_AddonMessage, GS_Whisper, GS_Sender)
@@ -140,7 +142,17 @@ end
 
 ----------------------------- Hook Set Unit -----------------------------------
 function GearScore_HookSetUnit(arg1, arg2)
-	if ( GS_PlayerIsInCombat ) then return; end
+	-- disable gs when inspecting other's talent
+	local f = EnumerateFrames()
+	local bInspecting = false
+	while f do
+	    if f:IsVisible() then
+	        local name = f:GetName()
+	        if name and string.find(name, "InspectTalentFrame") then bInspecting = true; break; end
+	    end
+	    f = EnumerateFrames(f)
+	end
+	if ( GS_PlayerIsInCombat or bInspecting ) then return; end
 	local Name = GameTooltip:GetUnit();local MouseOverGearScore, MouseOverAverage = 0,0
 	if ( CanInspect("mouseover") ) and ( UnitName("mouseover") == Name ) and not ( GS_PlayerIsInCombat ) then 
 		NotifyInspect("mouseover"); MouseOverGearScore, MouseOverAverage = GearScore_GetScore(Name, "mouseover"); 

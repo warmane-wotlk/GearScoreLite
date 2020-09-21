@@ -3,8 +3,8 @@
 ## Title-koKR: 기어스코어 라이트
 ## Notes: Quickly and easily judge a player's level of Gear.
 ## Notes-koKR: 빠르고 쉽게 플레이어 장비의 기어레벨을 확인 할 수 있습니다.
-## Version: 3x04
-## Author: Mirrikat45
+## Version: 3x04.s1
+## Author: Mirrikat45, Sunmudang@style
 ## SavedVariables: GS_Settings
 
 informationLite.lua
